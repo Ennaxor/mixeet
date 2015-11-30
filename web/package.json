@@ -15,6 +15,7 @@
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "mongodb": "^2.0.48",
+    "mongoose": "^4.2.8",
     "passport": "^0.3.2",
     "passport-youtube-v3": "^1.0.1"
   }
