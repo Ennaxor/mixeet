@@ -7,6 +7,17 @@ mixeet.controller('landingCtrl', function($scope, $interval, $location, $state, 
 		window.location = "/";		
 	}
 
+	//CONTROLAR QUE NO ENTREN AQUI SI ESTAN LOGUEADOS
+	if(localStorage.getItem("auth")){
+		window.location = "/";
+	}
+
+
+	var signin = function(){
+		console.log("hell");
+		window.location = "/users/signin";
+	}
+
 	$scope.suggestions = [
 		{
 			title: 'at a party with your friends a saturday night'
