@@ -9,15 +9,23 @@ mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 
 	var static_path ="static/app";
 
-	$urlRouterProvider.otherwise("/home");
-	$stateProvider.state('home', {   
-      url: "/home",
-      templateUrl: static_path+"/home/main.tpl.html",
-      controller: 'homeCtrl'
-    });
+	$urlRouterProvider.otherwise("/");
+	
+	$stateProvider
+		.state('home', {   
+	      url: "/",
+	      templateUrl: static_path+"/home/main.tpl.html",
+	      controller: 'homeCtrl'
+	    })
+		.state('landing', {   
+	      url: "/landing"
+	      //templateUrl: static_path+"/home/main.tpl.html",
+	      //controller: 'landingCtrl'
+	    })
+	    ;
+
+
 
 
 });
 
-
-/* SERVICIO YOUTUBE...*/

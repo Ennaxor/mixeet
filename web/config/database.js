@@ -1,3 +1,3 @@
 module.exports = {
-    'url' : 'mongodb://<user>:<pass>@apollo.modulusmongo.net:27017/E8pexihi' 
+    'url' : 'mongodb://<root>:<root>@apollo.modulusmongo.net:27017/nopidO8z' 
 };
