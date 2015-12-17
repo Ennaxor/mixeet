@@ -439,7 +439,7 @@ header{
 }
 
 #sidebar-wrapper {
-    z-index: 900;
+    z-index: 1000;
     position: fixed;
     left: 220px;
     width: 0;
@@ -455,7 +455,7 @@ header{
 }
 
  #sidebar-wrapper-2 {
-    z-index: 900;
+    z-index: 1000;
     position: fixed;
     right: 220px;
     width: 0;
@@ -530,6 +530,18 @@ header{
 .sidebar-nav li, .sidebar-nav-2 li{
     text-indent: 20px;
     line-height: 40px;
+}
+
+.btn-list{
+	margin-top: 20px;	
+	margin-left:20px;	
+
+	a{	
+		width: 170px;
+		padding-left: 0px;
+		background-color: @light-accent-color;
+	}
+
 }
 
 .sidebar-nav li a{
@@ -611,15 +623,44 @@ header{
 	z-index: 99999;
 }
 
+.collapsible-header{
+	background-color: #CFD8DC;
+	border: none;
+}
 
 
+.collapsible{
+	border: none !important;
+	outline: none;
+}
+
+.collapsible-body{
+	padding-left: 80px;
+	border: none;
+}
+
+.sectionSelected{
+	margin-left: 145px;
+}
+
+.sectionSelectedInside{
+	margin-left: 235px;
+}
+
+.sectionS{
+	background-color: #EBE6EB;
+}
 
 
+/* ------------------------------ HOME PAGE / PROFILE ----------------------------------- */
 
+.profile-content{
+	text-align: center;
 
-/* ------------------------------ HOME PAGE ----------------------------------- */
-
-
+	img{
+		width: 200px;
+	}
+}
 
 
 
