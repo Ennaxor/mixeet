@@ -23,7 +23,7 @@ body {
 #sugg4 {
   -webkit-animation-duration: 1.1s;
 }
-/* -------------------- LANDING PAGE ------------------------*/
+/* ------------------------------ LANDING PAGE -----------------------------------*/
 #h-landing .bg {
   position: relative;
   background-attachment: fixed;
@@ -111,6 +111,7 @@ body {
 #meet-mixeet {
   width: 100%;
   height: 275px;
+  margin-top: -22px;
   background-color: #455a64;
   padding: 10px 190px 25px 190px;
   color: white;
@@ -199,7 +200,7 @@ body {
   padding: 10px 190px 25px 190px;
   color: white;
   position: absolute;
-  top: 740px;
+  top: 805px;
   font-size: 1.4em;
 }
 @media all and (max-width: 800px) {
@@ -362,56 +363,196 @@ footer img {
   top: 13px;
   left: 15px;
 }
-/*
-
-
-
-
-
-a{
-	opacity: 0.7;
-	text-decoration: none;	
-	transition: all 0.3s;
-	&:hover{
-		opacity: 1;
-	}
+/* ------------------------------ COMMON ----------------------------------- */
+header .nav-wrapper {
+  background-color: #ff6846;
+  padding-left: 30px;
 }
-
-
-.white{
-	color: white;
-	border-bottom: 1px dashed white; 
+header img {
+  margin-top: 2px;
+  width: 46px;
 }
-
-.black{
-	color: @primary-text;
-	border-bottom: 1px dashed @primary-text;
+header a {
+  margin-left: 5px;
 }
-
-
-
-
-.banner{	
-	.bg{
-		position: relative;
-		background-attachment: fixed;
-		background-position: top center;
-		background-size: 100%;
-		width: 100%;
-		height: 480px;
-		text-indent: -9999px;
-		background-image: url(/static/assets/images/banner_ld.jpg);
-		background-color: #f45050;
-		@media all and (max-width:640px){
-		 	height: 540px;
-		}
-		@media all and (max-width:500px){
-		 	background-image: none;
-		}
-		@media all and (max-width:400px){
-		 	height: 650px;
-		 	
-		}
-	}
-	
-}*/
+header a:hover {
+  color: #FFA38F;
+  text-decoration: none;
+}
+/*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+/* Toggle Styles */
+#wrapper {
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#wrapper span {
+  padding-left: 15px;
+}
+#wrapper.toggled {
+  padding-left: 220px;
+}
+#sidebar-wrapper {
+  z-index: 900;
+  position: fixed;
+  left: 220px;
+  width: 0;
+  height: 100%;
+  margin-left: -220px;
+  overflow-y: auto;
+  background: #CFD8DC;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#sidebar-wrapper-2 {
+  z-index: 900;
+  position: fixed;
+  right: 220px;
+  width: 0;
+  height: 100%;
+  margin-right: -220px;
+  overflow-y: auto;
+  background: #455A64;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+#wrapper.toggled #sidebar-wrapper,
+#wrapper.toggled #sidebar-wrapper-2 {
+  width: 220px;
+}
+#page-content-wrapper {
+  width: 80%;
+  position: absolute;
+  padding: 15px;
+}
+@media all and (max-width: 1200px) {
+  #page-content-wrapper {
+    width: 75%;
+  }
+}
+@media all and (max-width: 915px) {
+  #page-content-wrapper {
+    width: 68%;
+  }
+}
+@media all and (max-width: 770px) {
+  #page-content-wrapper {
+    width: 100%;
+  }
+}
+#wrapper.toggled #page-content-wrapper {
+  position: absolute;
+  margin-right: -220px;
+}
+/* Sidebar Styles */
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 220px;
+  margin: 0;
+  padding: 20px;
+  padding-left: 0px;
+  list-style: none;
+}
+.sidebar-nav-2 {
+  position: absolute;
+  top: 0;
+  width: 220px;
+  margin: 0;
+  padding-top: 20px;
+  padding-left: 0px;
+  list-style: none;
+}
+.sidebar-nav-2 .special-title {
+  color: white;
+  background-color: #203B47;
+  height: 70px;
+  margin-top: -30px;
+  padding-top: 18px;
+  padding-left: 5px;
+}
+.sidebar-nav li,
+.sidebar-nav-2 li {
+  text-indent: 20px;
+  line-height: 40px;
+}
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #212121;
+}
+.sidebar-nav-2 li a {
+  display: block;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+.sidebar-nav li a:hover {
+  text-decoration: none;
+  color: black;
+  background: rgba(255, 255, 255, 0.2);
+}
+.sidebar-nav-2 li a:hover {
+  text-decoration: none;
+  color: white;
+  background: rgba(255, 255, 255, 0.2);
+}
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus,
+.sidebar-nav-2 li a:active,
+.sidebar-nav-2 li a:focus {
+  text-decoration: none;
+}
+.sidebar-nav > .sidebar-brand,
+.sidebar-nav-2 > .sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+}
+.sidebar-nav > .sidebar-brand a,
+.sidebar-nav-2 > .sidebar-brand a {
+  color: #212121;
+}
+.sidebar-nav > .sidebar-brand a:hover,
+.sidebar-nav-2 > .sidebar-brand a:hover {
+  color: #fff;
+  background: none;
+}
+@media (min-width: 768px) {
+  #wrapper {
+    padding-left: 220px;
+  }
+  #wrapper.toggled {
+    padding-left: 0;
+  }
+  #sidebar-wrapper,
+  #sidebar-wrapper-2 {
+    width: 220px;
+  }
+  #wrapper.toggled #sidebar-wrapper,
+  #wrapper.toggled #sidebar-wrapper-2 {
+    width: 0;
+  }
+  #page-content-wrapper {
+    padding: 20px;
+    position: relative;
+  }
+  #wrapper.toggled #page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+#i-footer {
+  position: relative;
+  z-index: 99999;
+}
+/* ------------------------------ HOME PAGE ----------------------------------- */

@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="static/bower/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="static/bower/materialize/dist/css/materialize.min.css">
 	<link rel="stylesheet" href="static/bower/font-awesome-animation/dist/font-awesome-animation.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
 	<!-- DEVELOPMENT -->
 	 <link rel="stylesheet/less" type="text/css" href="static/assets/css/style.less" />
@@ -25,20 +26,95 @@
 <body>
 	<!-- AQUÍ VA EL HEADER QUE ES COMUN PARA TODAS LAS VISTAS -->
 	<header>
-		
-
+	 <div class="navbar-fixed">
+		<nav>
+		    <div class="nav-wrapper">
+		     	<a href="#" ><img ng-src="static/assets/logo-w2.png" alt="Mixeet logo"/></a>
+				<a href="#" class="brand-logo">MIXEET</a>
+				<!--<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="sass.html">Sass</a></li>
+				<li><a href="badges.html">Components</a></li>
+				<li><a href="collapsible.html">JavaScript</a></li>
+				</ul>-->
+		    </div>
+		</nav>
+	 </div>
 	</header>
 
+	<!-- Sidebar RIGHT - CANT SLIDE -->     
+    <div id="sidebar-wrapper-2">
+        <ul class="sidebar-nav-2">
+            <li class="special-title">                
+                <h4> RECENTLY PLAYED </h4>                
+            </li>
+            
+        </ul>
+    </div>
+     <!-- /#sidebar-wrapper -->
+
+
+     <!-- SLIDE LEFT -->
+
+	<div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand active">
+                    <a href="#">
+                       <i class="fa fa-user"></i> <span> ROXANNE </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                    	<i class="fa fa-music"></i> <span> My Collection </span>
+                    </a>    
+
+                </li>
+                <li>
+                    <a href="#">
+                    	<i class="fa fa-book"></i> <span> My Past Events </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                    	<i class="fa fa-trophy"></i> <span> Achievements </span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Simple Sidebar</h1>
+                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+                        
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   <!-- <footer id="i-footer" class="page-footer blue-grey darken-4">      
+	      <div class="footer-copyright">
+	        <div class="container">
+	         
+	       Roxanne López van Dooren © 2016 Copyright 
+	       <img class="right" ng-src="static/assets/logo.png" alt="Mixeet logo in color">
+	        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+	        </div>
+	      </div>
+    </footer>-->
 	
-	<!-- CARGA DINÁMICA DE LAS VISTAS -->
-	<div ui-view></div>
-
-
-	<!-- AQUI VA EL FOOTER QUE ES COMUN PARA TODAS LAS VISTAS -->
-	<footer>
-		<div class="info-footer"></div>		
-			
-	</footer>
 
 	<!-- DEPENDENCIES -->
 	<script src="static/bower/jquery/dist/jquery.min.js"></script>
@@ -50,12 +126,18 @@
 
 
 	<script src="https://apis.google.com/js/client.js?onload=init"></script> 
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+	<script>
+	    $("#menu-toggle").click(function(e) {
+	        e.preventDefault();
+	        $("#wrapper").toggleClass("toggled");
+	    });
+    </script>
 
 	<!-- CONTROLLERS-->
 	<script src="static/app/app.js"></script>
 	<script src="static/app/home/homeCtrl.js"></script>
-	<!--<script src="static/headerCtrl.js"></script> -->
-
 
 	<script src="static/app/services/accessSvc.js"></script>
 	
