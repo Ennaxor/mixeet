@@ -29,8 +29,8 @@
 		</div>
 
 		<img ng-src="static/assets/logo-w2.png" alt="Mixeet logo"/>
-		<a href="/users/signin" class="waves-effect waves-light btn-large">TRY MIXEET</a>
 
+		<a ng-click="signin()" class="waves-effect waves-light btn-large">TRY MIXEET</a>
 		<div class="info-mixeet">
 			<h1>MIXEET</h1>
 			<span>Mixeet is a new kind of music player for you and your friends. </span><br>
@@ -51,17 +51,11 @@
 				<p id="sugg4" ng-show="sugg4" class="cursive animated slideInRight">when you wake up alone a monday morning</p>
 			</blockquote>
 
-
-			<!--<div class="animate-repeat" ng-repeat="suggestion in suggestions">
-		        <div ng-if="suggestions_index == $index">
-		              <blockquote><p class="cursive">{{suggestion.title}}</p>  <blockquote>
-		        </div>
-		    </div>-->
 		</div>
 		
 		<div class="col s5 righted">
 			<p>And it's really easy to use! Just register with your youtube account</p>
-			<a class="waves-effect waves-light btn-large"><i class="fa fa-youtube right"></i>SIGN IN WITH</a>
+			<a ng-click="signin()" class="waves-effect waves-light btn-large"><i class="fa fa-youtube right"></i>SIGN IN WITH</a>
 		</div>
 	</div>
 

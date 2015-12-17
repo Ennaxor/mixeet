@@ -13,10 +13,13 @@ mixeet.controller('landingCtrl', function($scope, $interval, $location, $state, 
 	}
 
 
-	var signin = function(){
-		console.log("hell");
+	function signin(){
 		window.location = "/users/signin";
 	}
+
+	$scope.signin = signin;
+
+	
 
 	$scope.suggestions = [
 		{
