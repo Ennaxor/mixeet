@@ -1,4 +1,4 @@
-mixeet.controller('homeCtrl', function($scope, $timeout, $http, $rootScope, access){
+mixeet.controller('homeCtrl', function($scope, $timeout, $http, $rootScope){
 	
 	/*var auth = JSON.parse(localStorage.getItem("auth"));
 	$http.get("/users/me",
@@ -12,12 +12,7 @@ mixeet.controller('homeCtrl', function($scope, $timeout, $http, $rootScope, acce
 			window.location = "/landing";	
 	});*/
 
-	access.authGet("/users/me", function(res){
-			$scope.usr = res;
-		}, function(err){
-			localStorage.removeItem("auth");	
-			window.location = "/landing";
-		});
+	
 
 
 });

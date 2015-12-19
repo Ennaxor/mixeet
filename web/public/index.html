@@ -30,9 +30,22 @@
 			<nav>
 			    <div class="nav-wrapper">
 			     	<a href="#" ><img ng-src="static/assets/logo-w2.png" alt="Mixeet logo"/></a>
-					<a href="#" class="brand-logo">MIXEET</a>				
-					<span class="brand-logo sectionSelected">{{sectionSelected}}</span>	
-					<span class="sectionSelectedInside">Roxanne</span>	
+					<a href="#" class="brand-logo" style="padding-left: 10px;">MIXEET</a>	
+					<div class="nav-section-a">
+						<span class="brand-logo sectionSelected">{{sectionSelected}}</span>	
+					</div>
+					<div class="nav-section-b">
+						<span ng-show="profileSelected" class="sectionSelectedC">{{usrname}}</span>	
+						<span ng-show="allSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
+						<span ng-show="friendSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
+						<span ng-show="favoriteSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>					
+					</div>
+					<div class="nav-section-c">
+						<span ng-show="listsSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
+						<span ng-show="genresSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
+						<span ng-show="artistsSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
+						<span ng-show="alphaSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
+					</div>
 			    </div>
 			</nav>
 		 </div>
@@ -56,23 +69,23 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li id="s-profile" ng-click="selectSection('profile')" class="sidebar-brand sectionS">
+                <li class="sidebar-brand" ng-class="{sectionS: profileSelected == true}" ng-click="selectSection('myprofile')">
                     <a href="#">
-                       <i class="fa fa-user"></i> <span> ROXANNE </span>
+                       <i class="fa fa-user"></i> <span> {{usrname}} </span>
                     </a>
                 </li>
-                <li  ng-click="selectSection('mycollection')">                      
+                <li ng-click="selectSection('mycollections')">                      
 	                <ul class="collapsible collapsible-accordion">
-				        <li >
-				           <a href="#" class="collapsible-header">
+				        <li>
+				           <a ng-class="{sectionS: collectionSelected == true}" href="#" class="collapsible-header">
 				                <i class="fa fa-music"></i> <span> My Collection </span>
 				            </a> 
 							<div class="collapsible-body">
 								<ul>
-									<li><a href="#!">Genres</a></li>
-									<li><a href="#!">Artists</a></li>
-									<li><a href="#!">Alphabetical</a></li>
-									<li><a href="#!">My Lists</a></li>
+									<li ng-class="{sectionC: listsSelected == true}"  ng-click="selectConcreteSection('lists')"><a href="#!">My Lists</a></li>
+									<li ng-class="{sectionC: genresSelected == true}"  ng-click="selectConcreteSection('genres')"><a href="#!">Genres</a></li>
+									<li ng-class="{sectionC: artistsSelected == true}"  ng-click="selectConcreteSection('artists')"><a href="#!">Artists</a></li>
+									<li ng-class="{sectionC: alphaSelected == true}"  ng-click="selectConcreteSection('alpha')"><a href="#!">Alphabetical</a></li>
 								</ul>
 							</div>
 				        </li>
@@ -81,20 +94,20 @@
                 <li ng-click="selectSection('myevents')">                      
 	                <ul class="collapsible collapsible-accordion">
 				        <li>
-				           <a href="#" class="collapsible-header">
+				           <a ng-class="{sectionS: eventsSelected == true}" href="#" class="collapsible-header">
 				                <i class="fa fa-book"></i> <span> My Past Events </span>
 				            </a> 
 							<div class="collapsible-body">
 								<ul>
-									<li><a href="#!">All</a></li>
-									<li><a href="#!">Friends</a></li>
-									<li><a href="#!">Favorites</a></li>
+									<li ng-class="{sectionC: allSelected == true}"  ng-click="selectConcreteSection('all')"><a href="#!">All</a></li>
+									<li ng-class="{sectionC: friendSelected == true}"  ng-click="selectConcreteSection('friends')"><a href="#!">Friends</a></li>
+									<li ng-class="{sectionC: favoriteSelected == true}"  ng-click="selectConcreteSection('favorites')"><a href="#!">Favorites</a></li>
 								</ul>
 							</div>
 				        </li>
 				    </ul>
                 </li>
-                <li id="s-achievements" ng-click="selectSection('achievements')">
+                <li ng-class="{sectionS: achievementsSelected == true}" ng-click="selectSection('myachievements')">
                     <a href="#">
                     	<i class="fa fa-trophy"></i> <span> Achievements </span>
                     </a>

@@ -368,14 +368,34 @@ header .nav-wrapper {
   background-color: #ff6846;
   padding-left: 30px;
 }
+header .nav-wrapper .nav-section-a {
+  padding-left: 150px;
+  display: inline-block;
+}
+header .nav-wrapper .nav-section-a span {
+  display: inline;
+  margin-top: -39px;
+}
+header .nav-wrapper .nav-section-b {
+  padding-left: 115px;
+  display: inline-block;
+}
+header .nav-wrapper .nav-section-b span {
+  display: inline;
+}
+header .nav-wrapper .nav-section-c {
+  padding-left: 20px;
+  display: inline-block;
+}
+header .nav-wrapper .nav-section-c span {
+  display: inline;
+}
 header img {
-  margin-top: 2px;
   width: 46px;
 }
-header a {
-  margin-left: 5px;
-}
-header a:hover {
+header a:hover,
+header a:active,
+header a:focus {
   color: #FFA38F;
   text-decoration: none;
 }
@@ -521,6 +541,9 @@ header a:hover {
 .sidebar-nav-2 li a:focus {
   text-decoration: none;
 }
+.sidebar-brand a {
+  text-transform: uppercase;
+}
 .sidebar-nav > .sidebar-brand,
 .sidebar-nav-2 > .sidebar-brand {
   height: 65px;
@@ -576,14 +599,14 @@ header a:hover {
   padding-left: 80px;
   border: none;
 }
-.sectionSelected {
-  margin-left: 145px;
-}
-.sectionSelectedInside {
-  margin-left: 235px;
-}
 .sectionS {
   background-color: #EBE6EB;
+}
+.sectionC {
+  background-color: #F2D4CE;
+}
+.sectionS:hover {
+  background-color: #EBE6EB !important;
 }
 /* ------------------------------ HOME PAGE / PROFILE ----------------------------------- */
 .profile-content {
@@ -591,4 +614,11 @@ header a:hover {
 }
 .profile-content img {
   width: 200px;
+}
+.profile-content div {
+  background-color: #FFB1A0;
+  color: white;
+  position: relative;
+  height: 220px;
+  padding: 10px 190px 25px 190px;
 }
