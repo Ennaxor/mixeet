@@ -19,10 +19,10 @@ mixeet.factory('access', function($http){
 	var authPost = function(url, data, success_callback, error_callback){
 		if(localStorage.getItem("auth")){
 			var auth = JSON.parse(localStorage.getItem("auth"));
-			$http.post(url, {headers: {
+		
+			$http.post(url, data, {headers: {
 				"authorization": "bearer "+auth.token
-				},
-				data: data 
+				} 
 			}).success(function(res){
 				success_callback(res);
 			}).error(function(err){

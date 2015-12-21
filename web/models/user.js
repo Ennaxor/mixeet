@@ -6,6 +6,7 @@ var userSchema = new Schema({
 	token: {type: String, index: {unique: true, sparse: true} },
 	name: String,
 	image: String,
+	location: String,
 	created_at: Date,
   	updated_at: Date,
   	token_expiry_date: Date

@@ -11,8 +11,13 @@
 
 	<link rel="stylesheet" href="static/bower/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="static/bower/materialize/dist/css/materialize.css">
+	<link rel="stylesheet" href="static/bower/animate.css">
 	<link rel="stylesheet" href="static/bower/font-awesome-animation/dist/font-awesome-animation.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- FOR MAP -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh8NEvMPPIhhupeP_B2QsmxK1Y6d07muk&amp;signed_in=true"
+        async defer></script>
 
 	<!-- DEVELOPMENT -->
 	 <link rel="stylesheet/less" type="text/css" href="static/assets/css/style.less" />
@@ -29,8 +34,9 @@
 		 <div class="navbar-fixed">
 			<nav>
 			    <div class="nav-wrapper">
-			     	<a href="#" ><img ng-src="static/assets/logo-w2.png" alt="Mixeet logo"/></a>
-					<a href="#" class="brand-logo" style="padding-left: 10px;">MIXEET</a>	
+			     	<a href="#"><img id="pulse-logo" ng-src="static/assets/logo-w2.png" alt="Mixeet logo"/></a>
+					<a href="#menu-toggle" class="brand-logo" style="padding-left: 10px;" id="menu-toggle"
+					ng-click="pulseLogo()">MIXEET</a>	
 					<div class="nav-section-a">
 						<span class="brand-logo sectionSelected">{{sectionSelected}}</span>	
 					</div>
@@ -129,11 +135,7 @@
                     <div class="col-lg-12">
                     	<!-- CARGA DINÁMICA DE LAS VISTAS -->
 						<div ui-view></div>
-                        <!--<h1>Simple Sidebar</h1>
-                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
-                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>-->
                         
-                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                     </div>
                 </div>
             </div>
@@ -177,7 +179,9 @@
 	<script src="static/app/home/homeCtrl.js"></script>
 	<script src="static/headerCtrl.js"></script>
 
+	<!-- SERVICES -->
 	<script src="static/app/services/accessSvc.js"></script>
+	<script src="static/app/services/geolocationSvc.js"></script>
 	
 </body>
 </html>

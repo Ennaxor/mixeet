@@ -82,7 +82,17 @@ module.exports = function(app, passport) {
 
 
 	users.get('/me', auth, function(req,res){
-		res.json({email:req.user.email, name:req.user.name, image:req.user.image});
+		res.json({email:req.user.email, name:req.user.name, image:req.user.image, location:req.user.location});
+	});
+
+	users.post('/location/new', auth, function(req, res){
+		req.user.location = req.body.location;
+		req.user.save(function(err, res1){
+			if(err) res.status(500).json({msg:'server error'});
+			else res.status(200).json({msg:'ok'});
+		});
+		
+
 	});
 
 

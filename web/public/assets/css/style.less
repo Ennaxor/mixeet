@@ -330,7 +330,7 @@ html, body{
 	width: 100%;
 	height: 55px;
 	position: absolute;
-	top: 1230px;
+	top: 1220px;
 	z-index: 999;
 	padding: @padding;
 	padding-left: 300px;
@@ -687,21 +687,71 @@ header{
 
 /* ------------------------------ HOME PAGE / PROFILE ----------------------------------- */
 
-.profile-content{
-	text-align: center;
-
-	img{
-		width: 200px;
+.collection-item{
+	p{
+		padding-top: 5px;
+		font-style: italic;
+	}
+	a{
+		color: @accent-color;
 	}
 
-	div{
-		background-color: #FFB1A0;
-		color: white;
-		position: relative;
-	    height: 220px;
-	    padding: @padding;
+	.log-out{
+		float: right;
+		padding-top: 10px;
+	}
+
+	.log-out:hover{
+		cursor: pointer;
 	}
 }
+
+.nav-profile{
+	font-size: 1.2em;
+	color: white;
+	padding: 10px;
+
+	li{
+		padding-bottom: 15px;
+	}
+
+	.collapsible-header{
+		background-color: #203B47;
+		height: 50px;
+		padding-top: 10px;
+		padding-left: 15px;
+	}
+
+	.collapsible-body{
+		background-color: #FFF;
+		color: @primary-text;
+		text-align: center;
+
+		.notVisible{
+			display: none;
+		}
+
+		.isVisible{
+			display: block;
+		}
+
+		.btn{
+			margin-left: 10px;
+			background-color: @accent-color;
+		}
+
+		span{
+			color: @accent-color;
+		}
+
+	}
+	
+	
+}
+
+#map {
+        height: 100%;
+      }
 
 
 

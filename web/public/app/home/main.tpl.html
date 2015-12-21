@@ -1,11 +1,74 @@
-<div class="profile-content">
-	<img class="responsive-img circle" ng-src="{{usr.image}}">
-	<h3>{{usr.name}}</h3>
-	<h4>{{usr.email}}</h4>
+<div data-ng-init="init()">
+<ul class="collection">
+	<li class="collection-item avatar">
+		<img ng-src="{{usr.image}}" alt="" class="circle">
+		<span class="title">{{usr.name}}</span>
+		<p>{{usr.email}}
+		
+		</p>
+		
+		<a href="#!" class="secondary-content">
+			<i class="fa fa-pencil-square-o"></i>
+		</a>
 
-	<div>
-		<h3>CLIMATE CONTEXT</h3>
+		<a ng-click="signout()" class="log-out">
+			LOG OUT <i class="fa fa-sign-out"></i>
+		</a>
+    </li>
+</ul>
 
-	</div>
+<!--<nav id="nav-profile">
+    <div class="nav-wrapper">
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li class="active"><a href="">My Location</a></li>
+        <li><a href="">My Climate Preferences</a></li>
+        <li><a href="">My Friends</a></li>
+      </ul>
+    </div>
+</nav>-->
+<ul class="collapsible nav-profile" data-collapsible="accordion">
+    <li> 
+      <div class="collapsible-header" ng-click="locationExtended = !locationExtended">My Location 
+      		<i ng-show="locationExtended" class="fa fa-sort-asc right"></i>
+      		<i ng-show="!locationExtended" class="fa fa-sort-desc right"></i>
+      </div>
+      <div class="collapsible-body">
+      	<p ng-show="!usr.location">Want to complete your profile? 
+      	 	<a ng-click="captureUserLocation()" class="waves-effect waves-light btn"><i class="fa fa-map-marker right"></i> Tell us your location!</a>
+
+      	 </p>
+
+      	 <p ng-show="usr.location"> You are currently in <span ng-bind="usr.location"></span> 
+      	 	<a ng-click="captureUserLocation()" class="waves-effect waves-light btn"><i class="fa fa-map-marker right"></i> Modify location</a>
+      	 </p>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header" ng-click="climateExtended = !climateExtended">My Climate Preferences
+	      	<i ng-show="climateExtended" class="fa fa-sort-asc right"></i>
+	      	<i ng-show="!climateExtended" class="fa fa-sort-desc right"></i>
+      </div>
+      <div class="collapsible-body"><p>Coming soon...</p></div>
+    </li> 
+    <li>
+      <div class="collapsible-header" ng-click="friendsExtended = !friendsExtended">My Friends
+			<i ng-show="friendsExtended" class="fa fa-sort-asc right"></i>
+	      	<i ng-show="!friendsExtended" class="fa fa-sort-desc right"></i>
+      </div>
+      <div class="collapsible-body"><p>You haven't connected to anyone yet!</p></div>
+    </li>
+</ul>
+
+
+<!--<img class="responsive-img circle" ng-src="{{usr.image}}">
+<h3>{{usr.name}}</h3>
+<h4>{{usr.email}}</h4>-->
+
+<!--<h5>Where do you live? </h5><a class="waves-effect waves-light btn"><i class="fa fa-map-marker right"></i>Tell us now!</a>
+
+<div>
+	<h3>CLIMATE CONTEXT</h3>
+
+</div>-->
 </div>
 

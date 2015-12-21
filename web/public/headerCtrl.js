@@ -1,4 +1,6 @@
-mixeet.controller('headerCtrl', function($scope, access){	
+mixeet.controller('headerCtrl', function($scope, access){
+
+
 
 	/* WHICH SECTION IS SELECTED? */
 	$scope.sectionSelected = "My Profile";
@@ -25,6 +27,11 @@ mixeet.controller('headerCtrl', function($scope, access){
 
 	$scope.allfalseE = function(){
 		$scope.allSelected = false; $scope.friendSelected = false; $scope.favoriteSelected = false;
+	}
+
+	$scope.pulseLogo = function(){
+		$('#pulse-logo').addClass('animated pulse');
+		
 	}
 
 

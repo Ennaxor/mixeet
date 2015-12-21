@@ -311,7 +311,7 @@ body {
   width: 100%;
   height: 55px;
   position: absolute;
-  top: 1230px;
+  top: 1220px;
   z-index: 999;
   padding: 10px 190px 25px 190px;
   padding-left: 300px;
@@ -609,16 +609,52 @@ header a:focus {
   background-color: #EBE6EB !important;
 }
 /* ------------------------------ HOME PAGE / PROFILE ----------------------------------- */
-.profile-content {
+.collection-item p {
+  padding-top: 5px;
+  font-style: italic;
+}
+.collection-item a {
+  color: #ff5722;
+}
+.collection-item .log-out {
+  float: right;
+  padding-top: 10px;
+}
+.collection-item .log-out:hover {
+  cursor: pointer;
+}
+.nav-profile {
+  font-size: 1.2em;
+  color: white;
+  padding: 10px;
+}
+.nav-profile li {
+  padding-bottom: 15px;
+}
+.nav-profile .collapsible-header {
+  background-color: #203B47;
+  height: 50px;
+  padding-top: 10px;
+  padding-left: 15px;
+}
+.nav-profile .collapsible-body {
+  background-color: #FFF;
+  color: #212121;
   text-align: center;
 }
-.profile-content img {
-  width: 200px;
+.nav-profile .collapsible-body .notVisible {
+  display: none;
 }
-.profile-content div {
-  background-color: #FFB1A0;
-  color: white;
-  position: relative;
-  height: 220px;
-  padding: 10px 190px 25px 190px;
+.nav-profile .collapsible-body .isVisible {
+  display: block;
+}
+.nav-profile .collapsible-body .btn {
+  margin-left: 10px;
+  background-color: #ff5722;
+}
+.nav-profile .collapsible-body span {
+  color: #ff5722;
+}
+#map {
+  height: 100%;
 }
