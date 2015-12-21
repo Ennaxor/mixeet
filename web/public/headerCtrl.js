@@ -1,6 +1,9 @@
 mixeet.controller('headerCtrl', function($scope, access){
 
-
+	/* GO TO LOCATION */
+	$scope.goTo = function(page){
+		window.location = "/"+page;
+	}
 
 	/* WHICH SECTION IS SELECTED? */
 	$scope.sectionSelected = "My Profile";
@@ -116,6 +119,8 @@ mixeet.controller('headerCtrl', function($scope, access){
 			$scope.collectionSelected = false;
 			$scope.eventsSelected = false;
 			$scope.listsSelected = false;
+
+			
 		}
 		else if(name == 'mycollections'){
 			$scope.sectionSelected = "My Collection";

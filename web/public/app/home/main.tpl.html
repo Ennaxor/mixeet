@@ -2,14 +2,20 @@
 <ul class="collection">
 	<li class="collection-item avatar">
 		<img ng-src="{{usr.image}}" alt="" class="circle">
-		<span class="title">{{usr.name}}</span>
-		<p>{{usr.email}}
+		
+    <div ng-show="!onEdit"><span class="title">{{usr.name}}</span></div>
+    <div ng-show="onEdit"> <input ng-model="editableName"/> </div>
+		
+    <p>{{usr.email}}
 		
 		</p>
 		
-		<a href="#!" class="secondary-content">
+		<a ng-show="!onEdit" ng-click="editName()" class="secondary-content"> Edit your name
 			<i class="fa fa-pencil-square-o"></i>
 		</a>
+    <div ng-show="onEdit">
+      <a ng-click="saveName()" class="secondary-content"> Save  <i class="fa fa-floppy-o"></i></a>
+    </div>
 
 		<a ng-click="signout()" class="log-out">
 			LOG OUT <i class="fa fa-sign-out"></i>

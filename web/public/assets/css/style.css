@@ -616,6 +616,13 @@ header a:focus {
 .collection-item a {
   color: #ff5722;
 }
+.collection-item a:hover {
+  cursor: pointer;
+}
+.collection-item input {
+  width: 31%;
+  padding: 2px;
+}
 .collection-item .log-out {
   float: right;
   padding-top: 10px;

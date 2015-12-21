@@ -85,14 +85,20 @@ module.exports = function(app, passport) {
 		res.json({email:req.user.email, name:req.user.name, image:req.user.image, location:req.user.location});
 	});
 
+	users.post('/me/modify', auth, function(req, res){
+		req.user.name = req.body.name;
+		req.user.save(function(err, res1){
+			if(err) res.status(500).json({msg:'server error'});
+			else res.status(200).json({msg:'ok'});
+		});
+	});
+
 	users.post('/location/new', auth, function(req, res){
 		req.user.location = req.body.location;
 		req.user.save(function(err, res1){
 			if(err) res.status(500).json({msg:'server error'});
 			else res.status(200).json({msg:'ok'});
 		});
-		
-
 	});
 
 

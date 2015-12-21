@@ -21,7 +21,12 @@ mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 	      url: "/landing"
 	      //templateUrl: static_path+"/home/main.tpl.html",
 	      //controller: 'landingCtrl'
-	    });
+	    })
+		.state('collections', {
+			url: "/collections",
+	      	templateUrl: static_path+"/collections/main.tpl.html",
+	      	controller: 'collectionsCtrl'
+		});
 
 
 
