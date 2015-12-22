@@ -219,6 +219,7 @@ body {
   #meet-mixeet-2 .l-descriptive {
     padding-left: 5px;
     padding-right: 5px;
+    top: 715px;
   }
 }
 #meet-mixeet-2 .l-descriptive .displays {
@@ -333,7 +334,7 @@ body {
 }
 @media all and (max-width: 360px) {
   .separator {
-    top: 1328px;
+    top: 1300px;
   }
 }
 .separator img {
@@ -608,6 +609,13 @@ header a:focus {
 .sectionS:hover {
   background-color: #EBE6EB !important;
 }
+#searchCollection {
+  height: 32px !important;
+  margin-top: 15px;
+  border: none;
+  margin-right: 250px;
+  padding-top: -100px;
+}
 /* ------------------------------ HOME PAGE / PROFILE ----------------------------------- */
 .collection-item p {
   padding-top: 5px;
@@ -663,5 +671,7 @@ header a:focus {
   color: #ff5722;
 }
 #map {
-  height: 100%;
+  width: 500px;
+  height: 400px;
+  background-color: #CCC;
 }

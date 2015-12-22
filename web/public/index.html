@@ -52,6 +52,8 @@
 						<span ng-show="artistsSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
 						<span ng-show="alphaSelected" class="sectionSelectedCC">{{sectionConcreteSelected}}</span>
 					</div>
+
+					<!--<input id="searchCollection" class="right" placeholder="Search..." ng-show="collectionSelected" />-->
 			    </div>
 			</nav>
 		 </div>
@@ -75,12 +77,13 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand" ng-class="{sectionS: profileSelected == true}" ng-click="selectSection('myprofile')">
+                <li class="sidebar-brand" ng-class="{sectionS: profileSelected == true}"
+                ng-click="goTo('profile')">
                     <a href="#">
                        <i class="fa fa-user"></i> <span> {{usrname}} </span>
                     </a>
                 </li>
-                <li ng-click="selectSection('mycollections')">                      
+                <li ng-click="goTo('collections')">                      
 	                <ul class="collapsible collapsible-accordion">
 				        <li>
 				           <a ng-class="{sectionS: collectionSelected == true}" href="#" class="collapsible-header">
@@ -97,7 +100,7 @@
 				        </li>
 				    </ul>
                 </li>
-                <li ng-click="selectSection('myevents')">                      
+                <li ng-click="goTo('events')">                      
 	                <ul class="collapsible collapsible-accordion">
 				        <li>
 				           <a ng-class="{sectionS: eventsSelected == true}" href="#" class="collapsible-header">
@@ -113,7 +116,7 @@
 				        </li>
 				    </ul>
                 </li>
-                <li ng-class="{sectionS: achievementsSelected == true}" ng-click="selectSection('myachievements')">
+                <li ng-click="goTo('achievements')" ng-class="{sectionS: achievementsSelected == true}">
                     <a href="#">
                     	<i class="fa fa-trophy"></i> <span> Achievements </span>
                     </a>
@@ -177,6 +180,9 @@
 	<!-- CONTROLLERS-->
 	<script src="static/app/app.js"></script>
 	<script src="static/app/home/homeCtrl.js"></script>
+	<script src="static/app/collections/collectionsCtrl.js"></script>
+	<script src="static/app/events/eventsCtrl.js"></script>
+	<script src="static/app/achievements/achievementsCtrl.js"></script>
 	<script src="static/headerCtrl.js"></script>
 
 	<!-- SERVICES -->

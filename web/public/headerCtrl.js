@@ -1,8 +1,80 @@
-mixeet.controller('headerCtrl', function($scope, access){
+mixeet.controller('headerCtrl', function($scope, $location, access, $rootScope){
+
+
+	 $rootScope.$watch(function() { 
+      	return $location.path(); 
+	  },
+	  function(a){  
+	      if(a == '/collections'){
+	      	$scope.sectionSelected = "My Collection"; $scope.collectionSelected = true;	$scope.allfalseE();
+			$scope.profileSelected = false; $scope.achievementsSelected = false; $scope.eventsSelected = false;
+	      }
+	      else if(a == '/events'){
+	      	$scope.sectionSelected = "My Events"; $scope.eventsSelected = true; $scope.allfalseC();
+			$scope.profileSelected = false; $scope.achievementsSelected = false; $scope.collectionSelected = false;
+			$scope.listsSelected = false;
+	      }
+	      else if(a == '/achievements'){
+	      	$scope.sectionSelected = "My Achievements";	$scope.achievementsSelected = true;	$scope.allfalseC();
+			$scope.allfalseE();	$scope.profileSelected = false;	$scope.collectionSelected = false; $scope.eventsSelected = false;
+			$scope.listsSelected = false;
+	      }
+	  });
 
 	/* GO TO LOCATION */
 	$scope.goTo = function(page){
-		window.location = "/"+page;
+		if(page == 'profile'){
+			page = '';
+			$scope.sectionSelected = "My Profile";
+			$scope.profileSelected = true;
+
+			$scope.allfalseC();
+			$scope.allfalseE();
+
+			$scope.achievementsSelected = false;
+			$scope.collectionSelected = false;
+			$scope.eventsSelected = false;
+			$scope.listsSelected = false;
+		}
+		else if(page == 'collections'){
+			$scope.sectionSelected = "My Collection";
+			$scope.collectionSelected = true;
+
+			$scope.allfalseE();
+
+			$scope.profileSelected = false;
+			$scope.achievementsSelected = false;
+			$scope.eventsSelected = false;
+		}
+		else if(page == 'events'){
+			$scope.sectionSelected = "My Events";
+			$scope.eventsSelected = true;
+
+			$scope.allfalseC();
+
+			$scope.profileSelected = false;
+			$scope.achievementsSelected = false;
+			$scope.collectionSelected = false;
+			$scope.listsSelected = false;
+		}
+		else if(page == 'achievements'){			
+			$scope.sectionSelected = "My Achievements";
+			$scope.achievementsSelected = true;
+
+			$scope.allfalseC();
+			$scope.allfalseE();
+
+			$scope.profileSelected = false;
+			$scope.collectionSelected = false;
+			$scope.eventsSelected = false;
+			$scope.listsSelected = false;
+		}
+
+
+		$location.path("/"+page);
+
+
+		
 	}
 
 	/* WHICH SECTION IS SELECTED? */
@@ -95,56 +167,7 @@ mixeet.controller('headerCtrl', function($scope, access){
 		}
 	}
 
-	$scope.selectSection = function(name){
-		if(name == 'myprofile'){
-			$scope.sectionSelected = "My Profile";
-			$scope.profileSelected = true;
-
-			$scope.allfalseC();
-			$scope.allfalseE();
-
-			$scope.achievementsSelected = false;
-			$scope.collectionSelected = false;
-			$scope.eventsSelected = false;
-			$scope.listsSelected = false;
-		}
-		else if(name == 'myachievements'){
-			$scope.sectionSelected = "My Achievements";
-			$scope.achievementsSelected = true;
-
-			$scope.allfalseC();
-			$scope.allfalseE();
-
-			$scope.profileSelected = false;
-			$scope.collectionSelected = false;
-			$scope.eventsSelected = false;
-			$scope.listsSelected = false;
-
-			
-		}
-		else if(name == 'mycollections'){
-			$scope.sectionSelected = "My Collection";
-			$scope.collectionSelected = true;
-
-			$scope.allfalseE();
-
-			$scope.profileSelected = false;
-			$scope.achievementsSelected = false;
-			$scope.eventsSelected = false;
-		}
-		else if(name == "myevents"){
-			$scope.sectionSelected = "My Events";
-			$scope.eventsSelected = true;
-
-			$scope.allfalseC();
-
-			$scope.profileSelected = false;
-			$scope.achievementsSelected = false;
-			$scope.collectionSelected = false;
-			$scope.listsSelected = false;
-		}
-	}
-
+	
 	
 	// OBTENCIÓN DE DATOS DEL USUARIO (NOMBRE, EMAIL E IMAGEN)
 

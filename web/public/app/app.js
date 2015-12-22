@@ -26,6 +26,16 @@ mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 			url: "/collections",
 	      	templateUrl: static_path+"/collections/main.tpl.html",
 	      	controller: 'collectionsCtrl'
+		})
+		.state('events', {
+			url: "/events",
+	      	templateUrl: static_path+"/events/main.tpl.html",
+	      	controller: 'eventsCtrl'
+		})
+		.state('achievements', {
+			url: "/achievements",
+	      	templateUrl: static_path+"/achievements/main.tpl.html",
+	      	controller: 'achievementsCtrl'
 		});
 
 
