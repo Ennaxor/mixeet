@@ -41,9 +41,6 @@ module.exports = function(app, passport) {
 						access_token: tokens.access_token
 					});
 					plus.people.get({userId: 'me', auth: oauth2Client }, function(err2, response){
-
-						//console.log(response);
-
 						var email = response.emails[0].value.toLowerCase();
 						var name = response.displayName;
 						var image = response.image.url;
