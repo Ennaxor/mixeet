@@ -33,7 +33,7 @@ body {
   height: 480px;
   text-indent: -9999px;
   background-image: url(/static/assets/images/banner-1.jpg);
-  background-color: #607d8b;
+  background-color: #607D8B;
 }
 @media all and (max-width: 640px) {
   #h-landing .bg {
@@ -65,7 +65,7 @@ body {
   position: absolute;
   top: 30px;
   right: 130px;
-  background-color: #ff5722;
+  background-color: #FF5722;
 }
 @media all and (max-width: 480px) {
   #h-landing .btn-large {
@@ -112,7 +112,7 @@ body {
   width: 100%;
   height: 275px;
   margin-top: -22px;
-  background-color: #455a64;
+  background-color: #455A64;
   padding: 10px 190px 25px 190px;
   color: white;
 }
@@ -179,7 +179,7 @@ body {
   text-indent: -9999px;
   top: -20px;
   background-image: url(/static/assets/images/banner-3.jpg);
-  background-color: #607d8b;
+  background-color: #607D8B;
 }
 @media all and (max-width: 640px) {
   #meet-mixeet-2 .bg-2 {
@@ -308,7 +308,7 @@ body {
   }
 }
 .separator {
-  background-color: #455a64;
+  background-color: #455A64;
   width: 100%;
   height: 55px;
   position: absolute;
@@ -366,7 +366,7 @@ footer img {
 }
 /* ------------------------------ COMMON ----------------------------------- */
 header .nav-wrapper {
-  background-color: #ff6846;
+  background-color: #FF6846;
   padding-left: 30px;
 }
 header .nav-wrapper .nav-section-a {
@@ -514,7 +514,7 @@ header a:focus {
 .btn-list a {
   width: 170px;
   padding-left: 0px;
-  background-color: #ff6846;
+  background-color: #FF6846;
 }
 .sidebar-nav li a {
   display: block;
@@ -590,15 +590,20 @@ header a:focus {
 }
 .collapsible-header {
   background-color: #CFD8DC;
-  border: none;
+  border: none !important;
 }
 .collapsible {
   border: none !important;
-  outline: none;
+  outline: none !important;
+  box-shadow: none !important;
 }
 .collapsible-body {
   padding-left: 80px;
-  border: none;
+  border: none !important;
+}
+.collapsible-accordion {
+  border: none !important;
+  outline: none !important;
 }
 .sectionS {
   background-color: #EBE6EB;
@@ -622,7 +627,7 @@ header a:focus {
   font-style: italic;
 }
 .collection-item a {
-  color: #ff5722;
+  color: #FF5722;
 }
 .collection-item a:hover {
   cursor: pointer;
@@ -665,13 +670,16 @@ header a:focus {
 }
 .nav-profile .collapsible-body .btn {
   margin-left: 10px;
-  background-color: #ff5722;
+  background-color: #FF5722;
 }
 .nav-profile .collapsible-body span {
-  color: #ff5722;
+  color: #FF5722;
 }
 #map {
   width: 500px;
   height: 400px;
   background-color: #CCC;
+}
+#graphic-container {
+  text-align: center;
 }

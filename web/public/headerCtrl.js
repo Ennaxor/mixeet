@@ -1,5 +1,4 @@
-mixeet.controller('headerCtrl', function($scope, $location, access, $rootScope){
-
+mixeet.controller('headerCtrl', function($scope, $location, access, $rootScope, $timeout){
 
 	 $rootScope.$watch(function() { 
       	return $location.path(); 
@@ -20,6 +19,11 @@ mixeet.controller('headerCtrl', function($scope, $location, access, $rootScope){
 			$scope.listsSelected = false;
 	      }
 	  });
+
+	 $timeout(function(){
+	  		var res = $scope.usr.name.split(" ");
+			$scope.usrname = res[0];
+	 }, 1000);
 
 	/* GO TO LOCATION */
 	$scope.goTo = function(page){
@@ -170,7 +174,6 @@ mixeet.controller('headerCtrl', function($scope, $location, access, $rootScope){
 	
 	
 	// OBTENCIÓN DE DATOS DEL USUARIO (NOMBRE, EMAIL E IMAGEN)
-
 	access.authGet("/users/me", function(res){
 			$scope.usr = res;
 			//OBTENER SOLO EL NOMBRE, SIN APELLIDOS

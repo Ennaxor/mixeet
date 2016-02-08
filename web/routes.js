@@ -10,7 +10,7 @@ var auth = function(req,res,next){
 /* RECUPERAMOS CREDENCIALES DE NUESTRA CONSOLA DEVELOPER */
 var oauth2Client = new OAuth2('927674196118-l6i2kvibbp67g63hf0unvcu40552cntq.apps.googleusercontent.com', '49tddGVHoBgsf_rQ1ETgJlLg', 'http://localhost:3000/users/signin');
 
-module.exports = function(app, passport) {
+module.exports = function(app, passport) { 
 
 	//USUARIO
 	var users = express.Router();

@@ -657,18 +657,24 @@ header{
 
 .collapsible-header{
 	background-color: #CFD8DC;
-	border: none;
+	border: none !important;
 }
 
 
 .collapsible{
 	border: none !important;
-	outline: none;
+	outline: none !important;
+	box-shadow: none !important;
 }
 
 .collapsible-body{
 	padding-left: 80px;
-	border: none;
+	border: none !important;
+}
+
+.collapsible-accordion{
+	border: none !important;
+	outline:none !important;
 }
 
 
@@ -731,8 +737,10 @@ header{
 	color: white;
 	padding: 10px;
 
+	
 	li{
 		padding-bottom: 15px;
+
 	}
 
 	.collapsible-header{
@@ -740,13 +748,13 @@ header{
 		height: 50px;
 		padding-top: 10px;
 		padding-left: 15px;
+
 	}
 
 	.collapsible-body{
 		background-color: #FFF;
 		color: @primary-text;
 		text-align: center;
-
 		.notVisible{
 			display: none;
 		}
@@ -774,6 +782,10 @@ header{
         height: 400px;
          background-color: #CCC;
       }
+
+#graphic-container{
+	text-align: center;
+}
 
 
 
