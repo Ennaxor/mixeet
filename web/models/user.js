@@ -54,6 +54,21 @@ userSchema.statics.signin = function(email, token, name, image, expirydate, call
 	});
 }
 
+//OBJECT METHODS
+userSchema.statics.update_info = function(data){ //this = user
+	var deferred = Q.defer();
+	var user = this;
+	user.name =  data.name;
+	user.image = data.image;
+	user.save(function(err){
+		if(err) deferred.reject(new Error(err));
+		else{
+			deferred.resolve(user);
+		}
+	});	
+	return deferred.promise;
+}
+
 var User = mongoose.model('User', userSchema);
 
 var authorize = function(req, res, next){
@@ -84,6 +99,8 @@ var authorize = function(req, res, next){
 	}
 
 }
+
+
 
 
 

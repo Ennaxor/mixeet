@@ -82,6 +82,19 @@ module.exports = function(app, passport) {
 		res.json({email:req.user.email, name:req.user.name, image:req.user.image, location:req.user.location});
 	});
 
+	users.get('/:email', function(req,res){
+		userModel.user.findOne({"email": req.params.email})
+		.then(function(user){
+			res.json(user);	
+		})
+		.catch(function(err){
+			res.status(404);
+			res.json({msg:"User not found", status:404});	
+			next();
+		})	
+
+	});
+
 	users.post('/me/modify', auth, function(req, res){
 		req.user.name = req.body.name;
 		req.user.save(function(err, res1){

@@ -1,0 +1,31 @@
+{
+  "name": "mixeet",
+  "version": "0.0.0",
+  "authors": [
+    "Roxanne Lopez van Dooren <roxannelopez6@hotmail.com>"
+  ],
+  "description": "music app great for parties",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "homepage": "mixeet.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.4.7",
+    "fontawesome": "~4.4.0",
+    "materialize": "~0.97.1",
+    "less": "~2.5.3",
+    "angular-resource": "~1.4.7",
+    "angular-ui-router": "~0.2.15",
+    "font-awesome-animation": "~0.0.7",
+    "angular-animate": "~1.4.8"
+  }
+}

@@ -1,0 +1,70 @@
+<div data-ng-init="init()">
+<ul class="collection">
+	<li class="collection-item avatar">
+		<img ng-src="{{usr.image}}" alt="" class="circle">
+		
+    <div ng-show="!onEdit"><span class="title">{{usr.name}}</span></div>
+    <div ng-show="onEdit"> <input ng-model="editableName"/> </div>
+		
+    <p>{{usr.email}}
+		
+		</p>
+		
+		<a ng-show="!onEdit" ng-click="editName()" class="secondary-content"> Edit your name
+			<i class="fa fa-pencil-square-o"></i>
+		</a>
+    <div ng-show="onEdit">
+      <a ng-click="saveName()" class="secondary-content"> Save  <i class="fa fa-floppy-o"></i></a>
+    </div>
+
+		<a ng-click="signout()" class="log-out">
+			LOG OUT <i class="fa fa-sign-out"></i>
+		</a>
+    </li>
+</ul>
+<ul class="collapsible nav-profile" data-collapsible="accordion">
+    <li> 
+      <div class="collapsible-header" ng-click="locationExtended = !locationExtended">My Location 
+      		<i ng-show="locationExtended" class="fa fa-sort-asc right"></i>
+      		<i ng-show="!locationExtended" class="fa fa-sort-desc right"></i>
+      </div>
+      <div class="collapsible-body">
+      	<p ng-show="!usr.location">Want to complete your profile? 
+      	 	<a ng-click="captureUserLocation()" class="waves-effect waves-light btn"><i class="fa fa-map-marker right"></i> Tell us your location!</a>
+
+      	 </p>
+
+      	 <p ng-show="usr.location"> You are currently in <span ng-bind="usr.location"></span> 
+      	 	<a ng-click="captureUserLocation()" class="waves-effect waves-light btn"><i class="fa fa-map-marker right"></i> Modify location</a>
+      	 </p>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header" ng-click="climateExtended = !climateExtended">My Climate Preferences
+	      	<i ng-show="climateExtended" class="fa fa-sort-asc right"></i>
+	      	<i ng-show="!climateExtended" class="fa fa-sort-desc right"></i>
+      </div>
+      <div class="collapsible-body"><p>Coming soon...</p></div>
+    </li> 
+    <li>
+      <div class="collapsible-header" ng-click="friendsExtended = !friendsExtended">My Friends
+			<i ng-show="friendsExtended" class="fa fa-sort-asc right"></i>
+	      	<i ng-show="!friendsExtended" class="fa fa-sort-desc right"></i>
+      </div>
+      <div class="collapsible-body"><p>You haven't connected to anyone yet!</p></div>
+    </li>
+</ul>
+
+
+<!--<img class="responsive-img circle" ng-src="{{usr.image}}">
+<h3>{{usr.name}}</h3>
+<h4>{{usr.email}}</h4>-->
+
+<!--<h5>Where do you live? </h5><a class="waves-effect waves-light btn"><i class="fa fa-map-marker right"></i>Tell us now!</a>
+
+<div>
+	<h3>CLIMATE CONTEXT</h3>
+
+</div>-->
+</div>
+
