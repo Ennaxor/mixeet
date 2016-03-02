@@ -36,11 +36,6 @@ mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 			url: "/achievements",
 	      	templateUrl: static_path+"/achievements/main.tpl.html",
 	      	controller: 'achievementsCtrl'
-		})
-		.state('graphic', {
-			url: "/graphic",
-	      	templateUrl: static_path+"/graphic/main.tpl.html",
-	      	controller: 'graphicCtrl'
 		});
 
 
