@@ -64,8 +64,8 @@ mixeet.factory('access', function($http){
 	}
 
 	return {
-		authGet: authGet,
-		authPost: authPost,
+		//authGet: authGet,
+		//authPost: authPost,
 		authorize: authorize
 	}
 

@@ -22,7 +22,7 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveU
 
 
 // routes ======================================================================
-require('./routes.js')(app); // load our routes and pass in our app and fully configured passport
+require('./router.js')(app); // load our routes and pass in our app and fully configured passport
 
 
 http.listen(port, function(){

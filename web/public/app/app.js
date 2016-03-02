@@ -41,6 +41,11 @@ mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider){
 			url: "/graphic",
 	      	templateUrl: static_path+"/graphic/main.tpl.html",
 	      	controller: 'graphicCtrl'
+		})
+		.state('graphic-engine', {
+			url: "/graphic-engine",
+	      	templateUrl: static_path+"/graphic-engine/index.html"
+	      	//controller: 'newCtrl'
 		});
 
 
