@@ -1,13 +1,16 @@
-var mixeet = angular.module('mixeet', ['ui.router']);
+var mixeet = angular.module('mixeet', ['ui.router', 'angular-google-analytics']);
 
 /* RUTAS ... */ 
-mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider){
+mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider, AnalyticsProvider){
 	$locationProvider.html5Mode({
 		enabled: true,
 		requireBase: false
 	});
 
 	var static_path ="static/app";
+
+	AnalyticsProvider.setAccount('UA-74638396-1'); //código de seguimiento de google analytics
+	AnalyticsProvider.useDisplayFeatures(true);
 
 	$urlRouterProvider.otherwise("/");
 	
