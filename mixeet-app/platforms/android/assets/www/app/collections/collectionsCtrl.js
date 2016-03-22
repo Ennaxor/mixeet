@@ -1,5 +1,5 @@
-mixeet.controller('collectionsCtrl', function($scope){
+webAppController.collectionsCtrl = function($scope){
 
 	
 
-});
+};

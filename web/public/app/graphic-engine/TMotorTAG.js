@@ -186,7 +186,7 @@ TLuz.prototype.getIntensidad = function(){
 	return this.intensidad;
 }
 
-TLuz.prototype.beginDraw = function(){
+TLuz.prototype.beginDraw = function(pasada){
 	console.log("BEGIN DRAW de TLUZ");
 }
 
@@ -211,7 +211,7 @@ TCamara.prototype.setParalela = function(){
 	
 }
 
-TCamara.prototype.beginDraw = function(){
+TCamara.prototype.beginDraw = function(pasada){
 	//suele estar vacio
 	console.log("BEGIN DRAW de TCAMARA");
 }
@@ -276,6 +276,18 @@ TMalla.prototype.endDraw = function() {
 }
 
 
+function ElementoRegistro(nodo){
+    this.activa = false;
+    this.matriz = mat4.create();
+    this.nodo = nodo;
+}
+function ElementoRegistroVP(posicion, tamanyo){
+    this.posicion = posicion;
+    this.tamanyo = tamanyo;
+    this.activa = false;
+}
+
+
 function TMotorTAG(){
     this.escena = new TNodo;
     this.gestorRecursos = new TGestorRecursos;
@@ -329,3 +341,80 @@ TMotorTAG.prototype.crearMalla = function(src){
 	//CARGAR FICHERO
 }
 
+//METODOS PARA EL REGISTRO Y MANEJO
+
+TMotorTAG.prototype.registrarLuz = function(nodoLuz){
+    this.luces.push(new ElementoRegistro(nodoLuz));
+    return this.luces.length-1;
+}
+
+TMotorTAG.prototype.setLuzActiva = function(nLuz){
+    if(this.luces[nLuz].activa) this.luces[nLuz].activa = false;
+    else this.luces[nLuz].activa = true;
+}
+
+TMotorTAG.prototype.registrarCamara = function(nodoCam){
+    this.camaras.push(new ElementoRegistro(nodoCam));
+    return this.camaras.length-1;
+}
+
+TMotorTAG.prototype.setCamaraActiva = function(nCamara){
+    for(var i in this.camaras){
+        if(this.camaras[i].activa) this.camaras[i].activa = false;
+    }
+    this.camaras[nViewport].activa = true;
+}
+
+TMotorTAG.prototype.getCamaraActiva = function(){
+    var cam = null;
+    for(var i in this.camaras){
+        if(this.camaras[i].activa) cam = this.camaras[i];
+    }
+    return cam;
+}
+
+TMotorTAG.prototype.registrarViewport = function(posicion, tamanyo){
+    this.viewports.push(new ElementoRegistroVP(posicion, tamanyo));
+    return this.viewports.length-1;
+}
+
+TMotorTAG.prototype.setViewportActivo = function(nViewport){
+    for(var i in this.viewports){
+        if(this.viewports[i].activa) this.viewports[i].activa = false;
+    }
+    this.viewports[nViewport].activa = true;
+}
+
+TMotorTAG.prototype.getViewportActivo = function(){
+    var vp = null;
+    for(var i in this.viewports){
+        if(this.viewports[i].activa) vp = this.viewports[i];
+    }
+    return vp;
+}
+
+TMotorTAG.prototype.draw = function(){
+	//Inicializar CANVAS Y LIBRERIAS
+	var canvas = document.getElementById("mixeet-canvas");
+
+    gl = initWebGL(canvas); //inicializamos el contexto de canvas
+    if (gl){
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);                      // Establecer el color base en negro, totalmente opaco
+        gl.enable(gl.DEPTH_TEST);                               // Habilitar prueba de profundidad
+        gl.depthFunc(gl.LEQUAL);                                // Objetos cercanos opacan objetos lejanos
+        gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);      // Limpiar el buffer de color asi como el de profundidad
+    }
+
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  	//perspective() será la función que se ejecutará junto con la cámara
+    mat4.perspective(pMatrix, gradToRad(45), gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);
+    mat4.identity(mvMatrix);
+
+    mat4.translate(mvMatrix, mvMatrix, [-1.5,0.0,-8.0]); //sitúa la matriz de vista
+    setMatrixUniforms();
+
+    this.escena.draw();
+
+}

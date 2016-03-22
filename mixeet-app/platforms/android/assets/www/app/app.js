@@ -1,50 +1,116 @@
-var mixeet = angular.module('mixeet', ['ui.router']);
+var webAppController = {};
+var webAppFactory = {};
 
-/* RUTAS ... */ 
-mixeet.config(function($stateProvider, $urlRouterProvider, $locationProvider){
-	$locationProvider.html5Mode({
-		enabled: true,
-		requireBase: false
-	});
+var mixeet = angular.module('mixeet', ['ui.router', 'ngResource'])
+.controller(webAppController)
+.factory(webAppFactory)
 
-	var static_path ="static/app";
+.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider){
+	
+	//$compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 
-	$urlRouterProvider.otherwise("/");
+
+	var getJSONLocal = function(key){
+		var result = null;
+		try{
+			var json = localStorage[key];
+			if(json !== undefined){
+				result = JSON.parse(json);
+			}
+		}catch(e){
+
+		}
+		return result;
+	}
 	
 	$stateProvider
-		.state('home', {   
-	      url: "/",
-	      templateUrl: static_path+"/home/main.tpl.html",
-	      controller: 'homeCtrl'
-	    })
-		.state('landing', {   
-	      url: "/landing"
-	      //templateUrl: static_path+"/home/main.tpl.html",
-	      //controller: 'landingCtrl'
-	    })
-		.state('collections', {
-			url: "/collections",
-	      	templateUrl: static_path+"/collections/main.tpl.html",
-	      	controller: 'collectionsCtrl'
+		.state('landing', {
+			url: "/landing",
+			onEnter: function ($state) {
+	            if (getJSONLocal("auth")) {
+	               // $rootScope.go("app.home");
+	               $state.go('app');
+	            }
+        	},
+        	templateUrl: "app/landing/main.tpl.html",
+			controller: "landingCtrl"
 		})
-		.state('events', {
-			url: "/events",
-	      	templateUrl: static_path+"/events/main.tpl.html",
-	      	controller: 'eventsCtrl'
+		.state('app', {
+			url: "/",
+			onEnter: function ($state) {
+	            if (!getJSONLocal("auth")) {
+	               // $rootScope.go("landing");
+	               $state.go('landing');
+	            }
+	        },
+			templateUrl: "app/main.tpl.html",
+			controller: "headerCtrl"
 		})
-		.state('achievements', {
-			url: "/achievements",
-	      	templateUrl: static_path+"/achievements/main.tpl.html",
-	      	controller: 'achievementsCtrl'
+		.state('app.home', {
+			url: "home",
+			onEnter: function ($state) {
+	            if (!getJSONLocal("auth")) {
+	               // $rootScope.go("landing");
+	            }
+	        },
+			views: {
+	            content: {
+	                templateUrl: 'app/home/main.tpl.html',
+	                controller: 'homeCtrl'
+	            	}
+	        	}  
 		})
-		.state('graphic', {
-			url: "/graphic",
-	      	templateUrl: static_path+"/graphic/main.tpl.html",
-	      	controller: 'graphicCtrl'
+		.state('app.collections', {
+			url: "collections",
+			onEnter: function ($state) {
+	            if (!getJSONLocal("auth")) {
+	                //$rootScope.go("landing");
+	            }
+	        },
+			views: {
+	            content: {
+	                templateUrl: 'app/collections/main.tpl.html',
+	                controller: 'collectionsCtrl'
+	            	}
+	        	}  
+		})
+		.state('app.events', {
+			url: "events",
+			onEnter: function ($state) {
+	            if (!getJSONLocal("auth")) {
+	                //$rootScope.go("landing");
+	            }
+	        },
+			views: {
+	            content: {
+	                templateUrl: 'app/events/main.tpl.html',
+	                controller: 'eventsCtrl'
+	            	}
+	        	}  
+		})
+		.state('app.achievements', {
+			url: "achievements",
+			onEnter: function ($state) {
+	            if (!getJSONLocal("auth")) {
+	                //$rootScope.go("landing");
+	            }
+	        },
+			views: {
+	            content: {
+	                templateUrl: 'app/achievements/main.tpl.html',
+	                controller: 'achievementsCtrl'
+	            	}
+	        	}  
 		});
+		$urlRouterProvider.otherwise("/");
+		$httpProvider.interceptors.push('interceptor');
 
+})
 
+.run(function ($rootScope, $state) {
 
-
+    $rootScope.go = function (state, params) {
+        $state.go(state, params);
+    };
 });
 

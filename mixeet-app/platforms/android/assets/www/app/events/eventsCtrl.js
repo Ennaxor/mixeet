@@ -1,2 +1,2 @@
-mixeet.controller('eventsCtrl', function($scope){
-});
+webAppController.eventsCtrl = function($scope){
+};

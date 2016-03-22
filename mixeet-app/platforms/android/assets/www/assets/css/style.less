@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,900);
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,900);
 
 @background-color: rgb(235, 230, 235);
 @main-font: 'Lato', sans-serif;
@@ -57,12 +57,12 @@ html, body{
 	.bg{
 		position: relative;
 		background-attachment: fixed;
-		background-position: top center;
-		background-size: 100%;
+		background-position: 100% 100%;
+		background-size: 100% 100%;
 		width: 100%;
 		height: 480px;
 		text-indent: -9999px;
-		background-image: url(/static/assets/images/banner-1.jpg);
+		background-image: url(../images/banner-1.jpg);
 		background-color: @primary-color;
 		@media all and (max-width:640px){
 		 	height: 480px;
@@ -208,13 +208,13 @@ html, body{
 	.bg-2{
 		position: relative;
 		background-attachment: fixed;
-		background-position: top center;
-		background-size: 100%;
+		background-position: 100% 100%;
+		background-size: 100% 100%;
 		width: 100%;
 		height: 490px;
 		text-indent: -9999px;
 		top: -20px;
-		background-image: url(/static/assets/images/banner-3.jpg);
+		background-image: url(../images/banner-3.jpg);
 		background-color: @primary-color;
 		@media all and (max-width:640px){
 		 	height: 320px;
@@ -373,18 +373,37 @@ html, body{
 	}
 }
 
-.slider{
-	top: 20px;
+.caption{
+	margin-top: 160px !important;
 }
 
+.slider{
+	max-height: 515px !important;
+	z-index: 9 !important;
+}
 
 footer{
 	img{
 		width: 25px;
 		position: relative;
-		top:13px;
 		left: 15px;
 	}
+}
+
+.page-footer{
+	margin-top: -20px;
+}
+
+.footer-info{
+	margin-top: -50px;
+}
+
+.btn-mobile{
+	margin-top: -250px;
+	font-size: 18px !important;
+	z-index: 9999;
+	color: #EC6A5C !important;
+	background-color: white !important;
 }
 
 /* ------------------------------ COMMON ----------------------------------- */
@@ -654,6 +673,8 @@ header{
 	position: relative;
 	z-index: 99999;
 }
+
+
 
 .collapsible-header{
 	background-color: #CFD8DC;

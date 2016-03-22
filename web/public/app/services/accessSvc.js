@@ -12,7 +12,7 @@ mixeet.factory('access', function($http){
 			});
 		}
 		else{
-			window.location = "/landing";
+			window.location = "/#/landing";
 		}
 	}
 
@@ -30,7 +30,7 @@ mixeet.factory('access', function($http){
 			});
 		}
 		else{
-			window.location = "/landing";
+			window.location = "/#/landing";
 		}
 	}
 

@@ -1,4 +1,4 @@
-mixeet.controller('homeCtrl', function($scope, $timeout, $http, $rootScope, geolocation, access){
+webAppController.homeCtrl = function($scope, $timeout, $http, $rootScope, geolocation, access){
 	
 	
 	var geocoder;
@@ -86,4 +86,4 @@ mixeet.controller('homeCtrl', function($scope, $timeout, $http, $rootScope, geol
 	
 
 
-});
+};

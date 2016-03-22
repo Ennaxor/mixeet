@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,900);
+@import url(https://fonts.googleapis.com/css?family=Lato:100,300,400,900);
 /* GENERAL SETTINGS */
 /* MEDIAS 1200 - 900 - 850 - 750 -640 - 500*/
 html,
@@ -32,7 +32,7 @@ body {
   width: 100%;
   height: 480px;
   text-indent: -9999px;
-  background-image: url(/static/assets/images/banner-1.jpg);
+  background-image: url(/assets/images/banner-1.jpg);
   background-color: #607D8B;
 }
 @media all and (max-width: 640px) {
@@ -178,7 +178,7 @@ body {
   height: 490px;
   text-indent: -9999px;
   top: -20px;
-  background-image: url(/static/assets/images/banner-3.jpg);
+  background-image: url(/assets/images/banner-3.jpg);
   background-color: #607D8B;
 }
 @media all and (max-width: 640px) {

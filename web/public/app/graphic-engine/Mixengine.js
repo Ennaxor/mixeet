@@ -41,7 +41,12 @@ var meshes;
 var shaderProgram;
 
 var gestorRecursos;
-var motorTAG;
+var engine;
+
+var mvMatrix = mat4.create();
+var pMatrix = mat4.create();
+var vertexBuffer;
+var indexBuffer;
 
 
 /* --------------- SHADERS ---------------------- */
@@ -143,8 +148,8 @@ function initWebGL(canvas){
     }
 // --------------- FUNCION ON LOAD ----------------- //
 
-function start(){
-    var canvas = document.getElementById("mixeet-canvas");
+function start(){ 
+   /* var canvas = document.getElementById("mixeet-canvas");
 
     gl = initWebGL(canvas); //inicializamos el contexto de canvas
     if (gl){
@@ -158,10 +163,51 @@ function start(){
     initShaders();
    // $scope.initBuffers();
     //
-    //$scope.drawScene(1);
+    //$scope.drawScene(1);*/
 
     //Para poder cargar las mallas y demás
-    gestorRecursos = new TGestorRecursos();
+    engine = new TMotorTAG; //se encarga de inicializar el CANVAS
+    gestorRecursos = new TGestorRecursos;
+
+    //Creamos algunas entidades...
+    var transLuz = engine.crearTransform();
+    var transCamara = engine.crearTransform();
+    var transMallas = engine.crearTransform();
+
+    var tluz = engine.crearLuz();
+    var tcamara = engine.crearCamara();
+    var tmalla = engine.crearMalla('ejemplo.obj');
+
+    transMallas.trasladar(3, 0, 0);
+    transMallas.escalar(0.5,0.5,0.5);
+
+    console.log("Nuestra malla: "+tmalla);
+
+    /*Creamos los nodos...*/
+    var nodoTransLuz = engine.crearNodo(engine.escena, transLuz);
+    var nodoTransCam = engine.crearNodo(engine.escena, transCamara);
+    var nodoTransMalla = engine.crearNodo(engine.escena, transMallas);
+
+    var nodoLuz = engine.crearNodo(nodoTransLuz, tluz);
+    var nodoCam = engine.crearNodo(nodoTransCam, tcamara);
+    var nodoMalla = engine.crearNodo(nodoTransMalla, tmalla);
+
+    //Registrar camara y luces
+    engine.registrarCamara(nodoCam);
+    var n1 = engine.registrarLuz(nodoLuz);
+    console.log("Luces disponibles: "+engine.luces);
+   
+    engine.setLuzActiva(n1);
+
+    engine.getCamaraActiva();
+
+    for(var i=0; i<gestorRecursos.recursos.length; i++){
+        console.log("Entramos en gestor recursos...");
+        console.log(gestorRecursos.recursos[i]);
+    }
+
+    engine.draw();
+
 
 
 
@@ -182,22 +228,28 @@ function normalizeNaN(vec) {
     return vec.map(a=> { if (Number.isNaN(a)) a = 0; return a; })
 }
 
-function handleGeometry(m){
-    meshes = m;    
-    OBJ.initMeshBuffers(gl, meshes.test);
-    console.log(meshes.test);
+
+
+function gradToRad(grados){
+  return (grados * Math.PI / 180);
+}
+
+function setMatrixUniforms() {
+    // actualiza las matrices de vista y de proyeccion
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
 }
 
 /* ------------- EL GESTOR DE RECURSOS - MALLA, TEXTURA Y MATERIAL ---------------------- */
 
 /* ------------------- TGESTORRECURSOS ----------------- */
 
-function TGestorRecursos(recursos){
-	this.recursos   = recursos   || []; //variable vector
+function TGestorRecursos(recs){
+	this.recursos   =  []; //variable vector
 }
 
-TGestorRecursos.prototype.getRecurso = function(nombre){
-	for(var i=0; i<recursos.length; i++){
+TGestorRecursos.prototype.getRecurso = function(nombre, tipo){
+	/*for(var i=0; i<recursos.length; i++){
 		if(recursos[i] == nombre){
 			return recursos[i];
 		}
@@ -207,7 +259,31 @@ TGestorRecursos.prototype.getRecurso = function(nombre){
 			recursos.push(nuevorecurso);
 			return nuevorecurso;
 		}
-	}
+	}*/
+    var recurso;
+    var n = -1;
+    for(var i in this.recursos){
+        if(this.recursos[i].getNombre() == nombre) n = i;
+    }
+
+    if(n == -1){
+        if(tipo == "malla") recurso = new TRecursoMalla(nombre);
+        else if(tipo == "textura") recurso = new TRecursoTextura(nombre);
+        else recurso = new TRecursoMaterial(nombre);
+
+        recurso.cargarFichero(nombre);
+        this.recursos.push(recurso);
+        console.log("Hemos añadido recurso a recursos = "+this.recursos);
+        
+    }
+    else recurso = this.recursos[n];
+    return recurso;
+}
+
+TGestorRecursos.prototype.termina = function(recurso){
+    console.log("-----"+recurso);
+    this.recursos.push(recurso);
+     console.log("Termina gesto recursos:"+this.recursos);
 }
 
 /* ---------------- TRECURSO ------------ */
@@ -226,105 +302,68 @@ TRecurso.prototype.setNombre = function(nombre){
 
 /* --------- T RECURSO MALLA ------------ */
 
-function TRecursoMalla(){
-	this.vertices = 0;
+function TRecursoMalla(nombre){
+	/*this.vertices = 0;
 	this.normales = 0;
 	this.texturas = 0;
 	this.vertTriangulos = 0;
 	this.normTriangulos = 0;
 	this.textTriangulos = 0;
-	this.nTriangulos = 0;
+	this.nTriangulos = 0;*/
+    this.setNombre(nombre);
+    //Atributos propios
+    this.vertices = new Array();
+    this.normales = new Array();
+    this.texturas = new Array();
+    this.vertTriangulos = 0; //índices de los vértices
+    this.normTriangulos = 0;
+    this.textTriangulos = 0;
+    this.nTriangulos = 0;
+
+    this.vertexBuffer = null;
+    this.indexBuffer = null;
+    this.normBuffer = null;
 }
 
 TRecursoMalla.prototype = new TRecurso;
+
 TRecursoMalla.prototype.cargarFichero = function(src){
-    console.log(src);
-    OBJ.downloadMeshes({
-        'test' : 'static/app/graphic-engine/models/'+src,
-    }, handleGeometry);
-    
-   /* var objStr = document.getElementById('my_cube.obj').innerHTML;
-    var mesh = new OBJ.Mesh(objStr);
-    OBJ.initMeshBuffers(gl, mesh);
-    console.log(mesh);*/
-
+    var recurso = this;
+    if(src != null){
+    	//identificar extension  
+    	var elems = src.split(".");
+        var ext = elems[elems.length-1];
+        var self = this;
+        load(src, function(data){
+        	var obj;
+        	switch(ext){
+        		case "obj": //obj = new OBJ.Mesh(data);
+                //obj = self.parseOBJ(data);
+                            OBJ.downloadMeshes({
+                                'test' : 'static/app/graphic-engine/models/'+src,
+                            }, handleGeometry(recurso));
+                            obj = meshes;
+        					break;
+        		case "json": obj = self.parseJSON(data);
+        					break;
+        	}
+        	console.log("He cargado el fichero ---"+src);
+        	
+        });
+    }
+    else  console.log("ERROR: Fichero no cargado");
 }
 
-/*TRecursoMalla.prototype.cargarFichero = function(src){
-	//identificar extension  
-	var elems = src.split(".");
-    var ext = elems[elems.length-1];
-    var self = this;
-    load(src, function(data){
-    	var obj;
-    	switch(ext){
-    		case "obj": //obj = new OBJ.Mesh(data);
-            //obj = self.parseOBJ(data);
-                        OBJ.downloadMeshes({
-                            'mesh_obj' : src
-                        }, handleGeometry);
+function handleGeometry(recurso){
+    return function(m){
+        meshes = m;    
+        OBJ.initMeshBuffers(gl, meshes.test);
+        console.log(meshes.test);
 
-    console.log("---- Objeto recuperado "+ meshes);
-    					break;
-    		case "json": obj = self.parseJSON(data);
-    					break;
-    	}
-    	console.log("He cargado el fichero ---"+src);
-    	//self.rellenarBuffers(obj);
-       // console.log("Vertices: "+obj.iv+" Normales: "+obj.in+" Texturas: "+obj.it); 
-    });
-}*/
-
-TRecursoMalla.prototype.parseOBJ = function(data){
-	var obj = {
-        v: [],
-        vn: [],
-        vt: [],
-        iv: [],
-        in: [],
-        it: []
-    };
-
-
-    var lines = data.split("\n");
-
-    var vertex = lines.filter(function(a) {
-        return a[0] === 'v';
-    });
-
-    var index = lines.filter(function(a) {
-        return a[0] === 'f';
-    });
-
-    vertex.forEach(function(item) {
-        var elems = item.replace("\r", "").split(" ");
-        var key = elems[0];
-        obj[key] = obj[key].concat(elems.slice(1).filter(function(a) {
-            return a !== "";
-        }));
-    });
-
-    var tempIndex = [];
-    index.forEach(function(item) {
-        var elems = item.replace("\r", "").replace("f", "").split(" ");
-        tempIndex = tempIndex.concat(elems.slice(1).filter(function(a) {
-            return a !== "";
-        }));
-    });
-
-    tempIndex.forEach(function(item) {
-        var elems = item.split("/");
-
-        obj.iv = obj.iv.concat(parseInt(elems[0]) - 1);
-        obj.in = obj.in.concat(parseInt(elems[1]) - 1);
-        obj.it = obj.it.concat(parseInt(elems[2]) - 1);
-        
-    });
-
-
-    return obj;
-
+        recurso.rellenarBuffers(meshes.test);    
+    }    
 }
+
 
 TRecursoMalla.prototype.parseJSON = function(data){
 	var obj = {};
@@ -336,25 +375,89 @@ TRecursoMalla.prototype.parseJSON = function(data){
     return obj;
 }
 
-TRecursoMalla.prototype.rellenarBuffers = function(obj){
+TRecursoMalla.prototype.rellenarBuffers = function(m){
+    var recurso = this;
 	console.log("Rellenando buffers...");
+    recurso.vertices = m.vertices;
+    recurso.normales = m.vertexNormals;
+    recurso.texturas = m.textures;
+    //recurso.vertTriangulos = m.i_verts;
+   // recurso.normTriangulos = m.i_norms;
+   // recurso.textTriangulos = m.i_uvt;
+
+    console.log("Despues de rellenar los buffers: vertices = "+recurso.vertices[0]+" y normales = "+recurso.normales[0]);
+    console.log("Nuestro recurso es "+ recurso);
+
+    //Rellena el buffer de vértices
+    recurso.vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, recurso.vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(recurso.vertices), gl.STATIC_DRAW);
+    recurso.vertexBuffer.itemSize = 3; //coordenadas de los vertices de 3 en 3
+    recurso.vertexBuffer.numItems = recurso.vertices.length;
+    gl.bindBuffer(gl.ARRAY_BUFFER,null);
+
+
+    //Rellena el buffer de índices
+    recurso.indexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, recurso.indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(recurso.indices), gl.STATIC_DRAW);
+    recurso.indexBuffer.itemSize = 1;
+    recurso.indexBuffer.numItems = recurso.vertTriangulos.length;
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,null);
+
+
+    //Rellena el buffer de normales
+    recurso.normBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, recurso.normBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(recurso.normales), gl.STATIC_DRAW);
+    recurso.normBuffer.itemSize = 3;
+    recurso.normBuffer.numItems = recurso.normales.length;
+    gl.bindBuffer(gl.ARRAY_BUFFER,null);
+
+   
+    this.draw();
 }
+
+TRecursoMalla.prototype.draw = function(){
+    console.log("Llego al draw() de TRecursoMalla");
+    if(this.vertexBuffer != null){
+        //Vuelca los buffers
+         console.log("Que recurso estamos dibujando "+ this.getNombre());
+        mat4.multiply(mvMatrix, mvMatrix, matrizActual);
+        console.log("mvMatrix: " + mvMatrix);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+        setMatrixUniforms();
+
+        gl.drawElements(gl.TRIANGLES, this.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    
+    }
+}
+
 
 /* --------- T RECURSO TEXTURA ------------ */
 
 function TRecursoTextura(imagen){
-	this.imagen = new Image();
-	this.imagen.src = imagen;
-	//this.textura = gl.createTexture();
-
-	this.imagen.onload = function() {
-		//cosas de texturas...
-		console.log("Cargando imagen para textura");
-	}
+    this.setNombre(imagen);
+	this.imagen = 0;
+	this.textura = 0;
 }
 
 TRecursoTextura.prototype = new TRecurso;
 
+TRecursoTextura.prototype.cargarFichero = function(nombre){
+    this.textura = gl.createTexture();
+    this.imagen = new Image();
+    this.imagen.onload = function(){
+        //se llama cuando la imagen se carga del todo
+        console.log("Se ha terminado de cargar la imagen");
+    }
+    this.imagen.src = nombre; //tendria que pasarle la ruta
+
+}
 /*TRecursoTextura.prototype.getTextura = function(){
 	return this.textura;
 }*/
@@ -425,16 +528,6 @@ TRecursoMaterial.prototype.setSpecular = function(specular){
 }
 
 
-
-
-/*function Mixengine(canvas, tree){
-	this.transformaciones = null;
-
-	gl = Configuration.getGLContext(canvas); //clobal context
-	this.canvas = canvas;
-}*/
-
-
 function cargarFicheros(){
 	if (document.getElementById('fileobj') != null) var meshobj = document.getElementById('fileobj').value;
 	else var meshobj = null;
@@ -453,4 +546,433 @@ function cargarFicheros(){
 
 /*-------------------------- OBJETOS Y TMOTOR TAG ------------------- */
 
+var pila = [];
+var matrizActual = mat4.create();
 
+/* ----------------------- TENTIDAD  ------------------------ */
+
+function TEntidad(){
+
+}
+
+TEntidad.prototype.beginDraw = function(){
+    console.log("BEGIN DRAW de TENTIDAD");
+}
+
+TEntidad.prototype.endDraw = function(){
+    console.log("END DRAW de TENTIDAD");
+}
+
+/* -------------------- TNODO ------------------ */
+function TNodo(entidad, hijos, padre){
+    this.entidad = entidad || ''; //variable de tipo TEntidad
+    this.hijos   = hijos   || []; //variable vector
+
+    if(padre) padre.addChild(this);
+    else this.padre = ''; //variable de tipo TNodo... Por eso se comrpueba que exista ya antes o no
+}
+
+TNodo.prototype.getEntidad = function(){
+    return this.entidad;
+}
+
+TNodo.prototype.setEntidad = function(entidad){
+    if(entidad instanceof TEntidad) this.entidad = entidad;
+    else console.log("Este elemento no es de tipo Entidad");
+}
+
+TNodo.prototype.getPadre = function(){
+    return this.padre;
+}
+
+TNodo.prototype.setPadre = function(padre){
+    if(padre instanceof TNodo) this.padre = padre;
+    else console.log("Este elemento no es un Nodo");
+}
+
+TNodo.prototype.getNumHijos = function(){
+    return this.hijos.length;
+}
+
+TNodo.prototype.getHijos = function(){
+    return this.hijos;
+}
+
+TNodo.prototype.existeHijo = function(hijo) {
+    if(this.hijos.indexOf(hijo) != -1) return true;
+    else return false;
+};
+
+TNodo.prototype.getHijo = function(index_hijo) {
+    if(this.existeHijo(this.hijos(index_hijo))) return this.hijos(index_hijo);
+    else return null;
+};
+
+TNodo.prototype.addHijo = function(hijo){
+    hijo.setPadre(this); //fijamos el nodo actual como padre del hijo recién creado
+    this.hijos.push(hijo); //añadimos a nuestro vector HIJOS el nuevo nodo HIJO
+    return this.getNumHijos(); //DEVOLVER POR DEVOLVER
+}
+
+TNodo.prototype.removeHijo = function(hijo){
+    if(this.existeHijo(hijo)){
+        var index = this.hijos.indexOf(hijo);
+        this.hijos.splice(index, 1);
+    }
+    else console.log("No se ha podido eliminar el hijo");
+}
+
+TNodo.prototype.removeHijos = function(){
+    this.hijos = [];
+}
+
+TNodo.prototype.firstHijo = function(){
+    return this.getHijo(0); //pasamos índice
+}
+
+TNodo.prototype.lastHijo = function(){
+    return this.getHijo(this.getNumHijos() - 1);
+}
+
+TNodo.prototype.draw = function(){
+    if(this.entidad) this.entidad.beginDraw();
+    for(var i=0; i<this.hijos.length;i++){
+        this.hijos[i].draw();
+    }
+    if(this.entidad) this.entidad.endDraw();
+}
+
+
+/* ----------------------- TTRANSFORM ------------------------ */
+
+function TTransform(){
+    this.matriz = mat4.create();
+}
+
+TTransform.prototype = new TEntidad;
+
+/* GESTIONAR MATRIZ */
+TTransform.prototype.identidad = function(){
+     mat4.identity(this.matriz);
+     console.log("Matriz identidad: "+this.matriz);
+}
+
+TTransform.prototype.cargar = function(matriz){
+    this.matriz = matriz;
+}
+
+TTransform.prototype.trasponer = function(){
+    mat4.transpose(this.matriz);
+    console.log("Matriz traspuesta: "+this.matriz);
+}
+
+TTransform.prototype.invertir = function(){
+    mat4.inverse(this.matriz);
+    console.log("Matriz inversa: "+this.matriz);
+}
+
+/*TTransform.prototype.multiVector = function(vector){
+    mat4.inverse(this.matriz);
+    console.log("Matriz inversa: "+this.matriz);
+}
+
+TTransform.prototype.multiMatriz = function(matriz){
+    mat4.inverse(this.matriz);
+    console.log("Matriz inversa: "+this.matriz);
+}*/
+
+/* TRANSFORMACIONES BASICAS */
+TTransform.prototype.trasladar = function(a, b, c){
+    var vtras = vec3.create();
+    vec3.set(vtras, a, b, c);
+
+    mat4.translate(this.matriz, this.matriz, vtras);
+    console.log("Matriz trasladada: "+this.matriz);
+}
+
+TTransform.prototype.rotar = function(a, b, c, angulo){
+    var vrot = vec3.create();
+    vec3.set(vrot, a, b, c);
+
+    var rad = angulo * Math.PI / 180;
+
+    mat4.rotate(this.matriz, this.matriz, rad, vrot);
+    console.log("Matriz rotada: "+this.matriz);
+}
+
+TTransform.prototype.escalar = function(a, b, c){
+    var vesc = vec3.create();
+    vec3.set(vesc, a, b, c);
+
+    mat4.scale(this.matriz, this.matriz, vesc);
+    console.log("Matriz escalada: "+this.matriz);
+}
+
+/* DIBUJADO */
+TTransform.prototype.beginDraw = function(){
+    pila.push(matrizActual); //apilamos matriz actual
+    mat4.multiply(matrizActual, this.matriz, matrizActual);
+}
+
+TTransform.prototype.endDraw = function(){
+    matrizActual = pila.pop(); //desapilamos y la ponemos como actual
+}
+
+/* ----------------------- TLUZ ------------- */
+
+function TLuz(intensidad){
+    this.intensidad = intensidad;
+}
+
+TLuz.prototype = new TEntidad;
+
+TLuz.prototype.setIntensidad = function(intensidad){
+    this.intensidad = intensidad;
+}
+
+TLuz.prototype.getIntensidad = function(){
+    return this.intensidad;
+}
+
+TLuz.prototype.beginDraw = function(pasada){
+    console.log("BEGIN DRAW de TLUZ");
+}
+
+TLuz.prototype.endDraw = function(){
+    console.log("END DRAW de TLUZ");
+}
+
+/* --------------------- TCAMARA --------------- */
+function TCamara(esPerspectiva, cercano, lejano){
+    this.esPerspectiva = esPerspectiva;
+    this.cercano = cercano;
+    this.lejano = lejano;
+}
+
+TCamara.prototype = new TEntidad;
+
+TCamara.prototype.setPerspectiva = function(){
+
+}
+
+TCamara.prototype.setParalela = function(){
+    
+}
+
+TCamara.prototype.beginDraw = function(pasada){
+    //suele estar vacio
+    console.log("BEGIN DRAW de TCAMARA");
+}
+
+TCamara.prototype.endDraw = function(){
+    //suele estar vacio
+    console.log("END DRAW de TCAMARA");
+}
+
+/* -------------- TMALLA --------------- */
+function TMalla(malla){
+    this.malla = malla;
+
+    //Varios atributos...
+    this.ambient = null;
+    this.diffuse = null;
+    this.specular = null;
+    this.vertices = null;
+
+    this.position = null;
+    this.size     = null;
+    this.rotation = null;
+}
+
+TMalla.prototype = new TEntidad;
+
+TMalla.prototype.cargarMalla = function(src){
+    var malla = gestorRecursos.getRecurso(src, "malla");
+    console.log("Una vez cogemos el recurso... malla = "+malla)
+    this.malla = malla;
+}
+
+TMalla.prototype.getFichero = function(){
+    return this.malla;
+}
+
+TMalla.prototype.getPosition = function() {
+    return this.position;
+};
+
+TMalla.prototype.setPosition = function(position) {
+    this.position = position;
+};
+
+TMalla.prototype.getRotation = function() {
+    return this.rotation;
+};
+
+TMalla.prototype.setRotation = function(rotation) {
+    this.rotation = rotation;
+};
+
+TMalla.prototype.setSize = function(size) {
+    this.size = size;
+};
+
+TMalla.prototype.getSize = function() {
+    return this.size;
+};
+
+TMalla.prototype.beginDraw = function(){
+    console.log("BEGIN DRAW de TMALLA");
+    this.malla.draw();
+   
+
+}
+
+TMalla.prototype.endDraw = function() {
+    console.log("END DRAW de TMALLA");
+}
+
+
+function ElementoRegistro(nodo){
+    this.activa = false;
+    this.matriz = mat4.create();
+    this.nodo = nodo;
+}
+function ElementoRegistroVP(posicion, tamanyo){
+    this.posicion = posicion;
+    this.tamanyo = tamanyo;
+    this.activa = false;
+}
+
+
+function TMotorTAG(){
+    this.escena = new TNodo;
+    this.gestorRecursos = new TGestorRecursos;
+    //atributos de luces, camaras y viewport
+    this.matAuxLuces = new Array();
+    this.matAuxCamara = mat4.create();
+    this.viewports = new Array();
+    this.luces = new Array();
+    this.camaras = new Array();
+}
+
+TMotorTAG.prototype.crearNodo = function(padre, entidad){
+    var nodo = new TNodo;
+    padre.addHijo(nodo);
+    nodo.setEntidad(entidad);
+    return nodo;
+}
+
+TMotorTAG.prototype.crearTransform = function(){
+    var transf = new TTransform;
+    return transf;
+}
+
+TMotorTAG.prototype.crearCamara = function(){
+    var cam = new TCamara;
+    return cam;
+}
+
+TMotorTAG.prototype.crearNodoCamara = function(padre, camara){
+    var cam = new TNodo;
+    cam.setEntidad(camara);
+    padre.addHijo(cam);
+    return cam;
+}
+
+TMotorTAG.prototype.crearLuz = function(){
+    var luz = new TLuz;
+    return luz;
+}
+
+TMotorTAG.prototype.crearNodoLuz = function(padre, luzA){
+    var luz = new TNodo;
+    luz.setEntidad(luzA);
+    padre.addHijo(luz);
+    return luz;
+}
+
+TMotorTAG.prototype.crearMalla = function(src){
+    var malla = new TMalla;
+    malla.cargarMalla(src); 
+    return malla;
+}
+
+//METODOS PARA EL REGISTRO Y MANEJO
+
+TMotorTAG.prototype.registrarLuz = function(nodoLuz){
+    this.luces.push(new ElementoRegistro(nodoLuz));
+    return this.luces.length-1;
+}
+
+TMotorTAG.prototype.setLuzActiva = function(nLuz){
+    if(this.luces[nLuz].activa) this.luces[nLuz].activa = false;
+    else this.luces[nLuz].activa = true;
+}
+
+TMotorTAG.prototype.registrarCamara = function(nodoCam){
+    this.camaras.push(new ElementoRegistro(nodoCam));
+    return this.camaras.length-1;
+}
+
+TMotorTAG.prototype.setCamaraActiva = function(nCamara){
+    for(var i in this.camaras){
+        if(this.camaras[i].activa) this.camaras[i].activa = false;
+    }
+    this.camaras[nViewport].activa = true;
+}
+
+TMotorTAG.prototype.getCamaraActiva = function(){
+    var cam = null;
+    for(var i in this.camaras){
+        if(this.camaras[i].activa) cam = this.camaras[i];
+    }
+    return cam;
+}
+
+TMotorTAG.prototype.registrarViewport = function(posicion, tamanyo){
+    this.viewports.push(new ElementoRegistroVP(posicion, tamanyo));
+    return this.viewports.length-1;
+}
+
+TMotorTAG.prototype.setViewportActivo = function(nViewport){
+    for(var i in this.viewports){
+        if(this.viewports[i].activa) this.viewports[i].activa = false;
+    }
+    this.viewports[nViewport].activa = true;
+}
+
+TMotorTAG.prototype.getViewportActivo = function(){
+    var vp = null;
+    for(var i in this.viewports){
+        if(this.viewports[i].activa) vp = this.viewports[i];
+    }
+    return vp;
+}
+
+TMotorTAG.prototype.draw = function(){
+    //Inicializar CANVAS Y LIBRERIAS
+    var canvas = document.getElementById("mixeet-canvas");
+
+    gl = initWebGL(canvas); //inicializamos el contexto de canvas
+    if (gl){
+        gl.clearColor(0.0, 0.0, 0.0, 1.0);                      // Establecer el color base en negro, totalmente opaco
+        gl.enable(gl.DEPTH_TEST);                               // Habilitar prueba de profundidad
+        gl.depthFunc(gl.LEQUAL);                                // Objetos cercanos opacan objetos lejanos
+        gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);      // Limpiar el buffer de color asi como el de profundidad
+    }
+
+    initShaders();
+
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    //perspective() será la función que se ejecutará junto con la cámara
+    mat4.perspective(pMatrix, gradToRad(45), gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);
+    mat4.identity(mvMatrix);
+
+    mat4.translate(mvMatrix, mvMatrix, [-1.5,0.0,-8.0]); //sitúa la matriz de vista
+    setMatrixUniforms();
+
+    this.escena.draw();
+
+}

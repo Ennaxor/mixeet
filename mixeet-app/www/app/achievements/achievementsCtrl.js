@@ -1,5 +1,5 @@
-mixeet.controller('achievementsCtrl', function($scope){
+webAppController.achievementsCtrl = function($scope){
 
 	
 
-});
+};
